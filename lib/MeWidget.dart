@@ -6,6 +6,9 @@ import 'package:flutter_new/utils/LoginUtil.dart';
 import 'package:flutter_new/utils/SpUtil.dart';
 import 'package:flutter_new/utils/navigator_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_new/event/EventBusManager.dart';
+
+import 'event/Event.dart';
 
 class MeWdget extends StatefulWidget {
   @override
@@ -15,6 +18,10 @@ class MeWdget extends StatefulWidget {
 class _MeWdgetState extends State<MeWdget> {
   @override
   Widget build(BuildContext context) {
+    EventBusManager.eventBus.on<LoginChangeEvent>().listen((event) {
+      print("收到登录成功的event =  ${event.isLogin}");
+      setState(() {});
+    });
     String text = "退出";
     if (!LoginUtil.isLogin()){
       text = "去登录";

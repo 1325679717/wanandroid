@@ -4,6 +4,9 @@ import 'package:flutter_new/bloc/LoginBloc.dart';
 import 'package:flutter_new/res/styles.dart';
 import 'package:flutter_new/utils/LoadingPage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_new/event/EventBusManager.dart';
+
+import 'event/Event.dart';
 
 class LoginWidget extends StatelessWidget{
   @override
@@ -45,6 +48,7 @@ class LoginWidget extends StatelessWidget{
                       userNameController.text,
                       pwdController.text)
                       .then((value){
+                    EventBusManager.eventBus.fire(LoginChangeEvent(true));
                     loadingPage.close();
                     Fluttertoast.showToast(
                         msg: "登录成功！",
