@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_new/bloc/LoginBloc.dart';
 import 'package:flutter_new/res/styles.dart';
+import 'package:flutter_new/utils/Constant.dart';
 import 'package:flutter_new/utils/LoadingPage.dart';
+import 'package:flutter_new/utils/SpUtil.dart';
+import 'package:flutter_new/utils/ToastUtil.dart';
+import 'package:flutter_new/utils/util_index.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_new/event/EventBusManager.dart';
 
@@ -15,6 +19,11 @@ class LoginWidget extends StatelessWidget{
     LoginBloc loginBloc = LoginBloc();
     TextEditingController userNameController = TextEditingController();
     TextEditingController pwdController = TextEditingController();
+    String  userName=SpUtil.getString(Constant.keyUserName) ?? "";
+    if (userName !=null && userName != ""){
+      userNameController.text = userName;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -43,21 +52,25 @@ class LoginWidget extends StatelessWidget{
             Gaps.hGap10,
             ElevatedButton(
                 onPressed: (){
+                  if (Utils.stringEmpty(userNameController.text)){
+                    ToastUtil.showToast("用户名不能为空！");
+                    return;
+                  }
+                  if (Utils.stringEmpty(pwdController.text)){
+                    ToastUtil.showToast("密码不能为空！");
+                    return;
+                  }
+
                   loadingPage.show();
                   loginBloc.login(
                       userNameController.text,
                       pwdController.text)
                       .then((value){
+                    SpUtil.putString(Constant.keyUserName, userNameController.text);
                     EventBusManager.eventBus.fire(LoginChangeEvent(true));
                     loadingPage.close();
-                    Fluttertoast.showToast(
-                        msg: "登录成功！",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        backgroundColor: Colors.white38,
-                        textColor: Colors.black,
-                        fontSize: 16.0
-                    );
+
+                    ToastUtil.showToast("登录成功！");
                     Navigator.pop(context);
                   }).catchError((error) {
                     print("登录$error");

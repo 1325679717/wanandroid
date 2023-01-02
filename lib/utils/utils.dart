@@ -37,4 +37,10 @@ class Utils {
     }
     return true;
   }
+  static bool stringEmpty(content){
+    if (content == null || content == ""){
+      return true;
+    }
+    return false;
+  }
 }

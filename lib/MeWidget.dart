@@ -6,6 +6,7 @@ import 'package:flutter_new/res/styles.dart';
 import 'package:flutter_new/utils/Constant.dart';
 import 'package:flutter_new/utils/LoginUtil.dart';
 import 'package:flutter_new/utils/SpUtil.dart';
+import 'package:flutter_new/utils/ToastUtil.dart';
 import 'package:flutter_new/utils/navigator_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_new/event/EventBusManager.dart';
@@ -27,15 +28,10 @@ class _MeWdgetState extends State<MeWdget> {
   Widget build(BuildContext context) {
     EventBusManager.eventBus.on<LoginChangeEvent>().listen((event) {
       print("收到登录成功的event =  ${event.isLogin}");
+      initData();
       setState(() {});
     });
-    list.clear();
-    list.add(MeItemData(Ids.titleCollection,"收藏", Icons.collections));
-    list.add(MeItemData(Ids.titleAbout,"关于", Icons.info));
-    list.add(logoutData);
-    if (!LoginUtil.isLogin()){
-      list.remove(logoutData);
-    }
+    initData();
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -70,6 +66,15 @@ class _MeWdgetState extends State<MeWdget> {
       itemCount: list.length,
     );
   }
+  void initData(){
+    list.clear();
+    list.add(MeItemData(Ids.titleCollection,"收藏", Icons.collections));
+    list.add(MeItemData(Ids.titleAbout,"关于", Icons.info));
+    list.add(logoutData);
+    if (!LoginUtil.isLogin()){
+      list.remove(logoutData);
+    }
+  }
   void _showLoginOutDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -103,14 +108,8 @@ class _MeWdgetState extends State<MeWdget> {
                 ),
                 onPressed: () {
                   SpUtil.putString(Constant.keyAppToken, "");
-                  Fluttertoast.showToast(
-                      msg: "已退出登录！",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      backgroundColor: Colors.white38,
-                      textColor: Colors.black,
-                      fontSize: 16.0
-                  );
+                  ToastUtil.showToast("已退出登录！");
+                  Navigator.pop(ctx);
                   setState(() {});
                 },
               ),
