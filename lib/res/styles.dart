@@ -17,6 +17,10 @@ class TextStyles {
     fontSize: Dimens.font_sp12,
     color: Colours.text_gray,
   );
+  static TextStyle listExtra2 = TextStyle(
+    fontSize: Dimens.font_sp12,
+    color: Colours.text_normal,
+  );
 }
 
 class Decorations {
