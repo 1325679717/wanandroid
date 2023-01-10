@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_new/AboutWidget.dart';
 import 'package:flutter_new/LoginWidget.dart';
 import 'package:flutter_new/res/strings.dart';
 import 'package:flutter_new/res/styles.dart';
 import 'package:flutter_new/utils/Constant.dart';
+import 'package:flutter_new/utils/LogUtil.dart';
 import 'package:flutter_new/utils/LoginUtil.dart';
 import 'package:flutter_new/utils/SpUtil.dart';
 import 'package:flutter_new/utils/ToastUtil.dart';
@@ -22,12 +24,13 @@ class MeWdget extends StatefulWidget {
 }
 
 class _MeWdgetState extends State<MeWdget> {
+  String _TAG  ="MeWdget";
   List<MeItemData>  list =[];
-  MeItemData logoutData =MeItemData(Ids.titleSignOut,"注销", Icons.power_settings_new);
+  MeItemData logoutData =MeItemData(Ids.titleSignOut,"注销", Icons.power_settings_new,);
   @override
   Widget build(BuildContext context) {
     EventBusManager.eventBus.on<LoginChangeEvent>().listen((event) {
-      print("收到登录成功的event =  ${event.isLogin}");
+      print("收到登录成功的event= ${event.isLogin}");
       initData();
       setState(() {});
     });
@@ -59,6 +62,8 @@ class _MeWdgetState extends State<MeWdget> {
         onTap: (){
           if (list[index].id == Ids.titleSignOut){
             _showLoginOutDialog(context);
+          }  else{
+            NavigatorUtil.pushPage(context, list[index].widget,pageName: "about");
           }
         },
       );
@@ -69,7 +74,7 @@ class _MeWdgetState extends State<MeWdget> {
   void initData(){
     list.clear();
     list.add(MeItemData(Ids.titleCollection,"收藏", Icons.collections));
-    list.add(MeItemData(Ids.titleAbout,"关于", Icons.info));
+    list.add(MeItemData(Ids.titleAbout,"关于", Icons.info,widget: AboutWidget()));
     list.add(logoutData);
     if (!LoginUtil.isLogin()){
       list.remove(logoutData);

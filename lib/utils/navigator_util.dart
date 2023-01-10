@@ -5,7 +5,7 @@ import 'package:flutter_new/utils/utils.dart';
 class NavigatorUtil {
   static void pushPage(
       BuildContext context,
-      Widget page, {
+      Widget? page, {
         required String pageName,
         bool needLogin = false,
       }) {

@@ -31,7 +31,7 @@ class WebState extends State<WebWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text(widget.title ?? ""))
+        title: Text(widget.title ?? "")
       ),
       body: WebView(
         initialUrl: widget.url,

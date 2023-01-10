@@ -6,6 +6,7 @@ import 'package:flutter_new/bloc/MainBloc.dart';
 import 'package:flutter_new/widgets/HeaderItem.dart';
 import 'package:flutter_new/widgets/RecommArticleItem.dart';
 import 'package:flutter_new/widgets/RecommProjectItem.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'model/ArticleData.dart';
@@ -93,17 +94,17 @@ class RecommWidget extends StatelessWidget{
           );
     }
     return AspectRatio(aspectRatio: 16.0/9.0,
-        child: PageView(
-          children: snapshot.data!.map((e) =>
-              InkWell(
+        child: Swiper(
+            itemBuilder:(BuildContext context,int index){
+              return InkWell(
                 child: Image(
-                    image: NetworkImage(e.imagePath ?? "")
+                  image:  NetworkImage(snapshot.data![index].imagePath??""),
                 ),
-                onTap: ()=> print(e.title),
-              )).toList()
-
-
-          // snapshot.data.map((e) => null)
+              );
+            },
+          pagination: const SwiperPagination(),
+          controller: SwiperController(),
+            itemCount: snapshot.data!.length,
         ));
   }
 
