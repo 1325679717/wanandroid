@@ -75,15 +75,7 @@ class LoginWidget extends StatelessWidget{
                   }).catchError((error) {
                     print("登录$error");
                     loadingPage.close();
-                    Fluttertoast.showToast(
-                        msg: "请求失败啦",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.white38,
-                        textColor: Colors.black,
-                        fontSize: 16.0
-                    );
+                    ToastUtil.showToast("请求失败啦");
                   });
                 },
                 child: const Center(

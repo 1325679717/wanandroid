@@ -29,8 +29,9 @@ class _MeWdgetState extends State<MeWdget> {
   MeItemData logoutData =MeItemData(Ids.titleSignOut,"注销", Icons.power_settings_new,);
   @override
   Widget build(BuildContext context) {
+    print("MeWdget build");
     EventBusManager.eventBus.on<LoginChangeEvent>().listen((event) {
-      print("收到登录成功的event= ${event.isLogin}");
+      print("MeWdget 收到登录成功的event= ${event.isLogin}");
       initData();
       setState(() {});
     });
@@ -121,5 +122,10 @@ class _MeWdgetState extends State<MeWdget> {
             ],
           );
         });
+  }
+  @override
+  void dispose() {
+    EventBusManager.eventBus.destroy();
+    super.dispose();
   }
 }
