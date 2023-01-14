@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_new/utils/navigator_util.dart';
@@ -20,11 +22,9 @@ class WebState extends State<WebWidget> {
   @override
   void initState() {
     super.initState();
-    // if (Platform.isAndroid) {
-    //   WebView.platform = SurfaceAndroidWebView();
-    // }
-
-    WebView.platform = SurfaceAndroidWebView();
+    if (Platform.isAndroid) {
+      WebView.platform = SurfaceAndroidWebView();
+    }
   }
 
   @override
