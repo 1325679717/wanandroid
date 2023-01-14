@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_new/AboutWidget.dart';
 import 'package:flutter_new/LoginWidget.dart';
+import 'package:flutter_new/fun.dart';
 import 'package:flutter_new/res/strings.dart';
 import 'package:flutter_new/res/styles.dart';
 import 'package:flutter_new/utils/Constant.dart';
@@ -74,7 +75,7 @@ class _MeWdgetState extends State<MeWdget> {
   }
   void initData(){
     list.clear();
-    list.add(MeItemData(Ids.titleCollection,"收藏", Icons.collections));
+    list.add(MeItemData(Ids.titleCollection,"收藏", Icons.collections,widget: FunWidget()));
     list.add(MeItemData(Ids.titleAbout,"关于", Icons.info,widget: AboutWidget()));
     list.add(logoutData);
     if (!LoginUtil.isLogin()){
