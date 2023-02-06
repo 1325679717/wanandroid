@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_new/AboutWidget.dart';
 import 'package:flutter_new/LoginWidget.dart';
 import 'package:flutter_new/fun.dart';
+import 'package:flutter_new/notifier/LoginNotifier.dart';
 import 'package:flutter_new/res/strings.dart';
 import 'package:flutter_new/res/styles.dart';
 import 'package:flutter_new/utils/Constant.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_new/utils/navigator_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_new/event/EventBusManager.dart';
 import 'package:flutter_new/model/MeItemData.dart';
+import 'package:provider/provider.dart';
 
 import 'event/Event.dart';
 import 'package:flutter_new/res/dimens.dart';
@@ -31,11 +33,11 @@ class _MeWdgetState extends State<MeWdget> {
   @override
   Widget build(BuildContext context) {
     print("MeWdget build");
-    EventBusManager.eventBus.on<LoginChangeEvent>().listen((event) {
-      print("MeWdget 收到登录成功的event= ${event.isLogin}");
-      initData();
-      setState(() {});
-    });
+    // EventBusManager.eventBus.on<LoginChangeEvent>().listen((event) {
+    //   print("MeWdget 收到登录成功的event= ${event.isLogin}");
+    //   initData();
+    //   setState(() {});
+    // });
     initData();
     return Scaffold(
       appBar: AppBar(
@@ -43,7 +45,14 @@ class _MeWdgetState extends State<MeWdget> {
           child: Text("我的"),
         ),
       ),
-      body: buildList()
+      body: Consumer<LoginNotifier>(
+        builder: (BuildContext context,
+            LoginNotifier value,
+        Widget? child){
+          initData();
+          return buildList();
+        }
+      )
     );
   }
   Widget buildList(){

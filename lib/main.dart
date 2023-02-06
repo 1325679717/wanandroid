@@ -1,11 +1,16 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_new/MyHomePage.dart';
+import 'package:flutter_new/notifier/LoginNotifier.dart';
 import 'package:flutter_new/utils/SpUtil.dart';
+import 'package:provider/provider.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await SpUtil.getInstance();
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => LoginNotifier(),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

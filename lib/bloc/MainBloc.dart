@@ -1,4 +1,4 @@
-import 'package:flutter_new/model/BannerData.dart';
+  import 'package:flutter_new/model/BannerData.dart';
 import 'package:flutter_new/model/CollectData.dart';
 import 'package:flutter_new/repository/wan_repository.dart';
 import 'package:rxdart/rxdart.dart';
