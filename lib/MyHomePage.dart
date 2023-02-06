@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: IndexedStack(children: tabContent,index: _currentIndex),
+      body: IndexedStack(index: _currentIndex, children: tabContent),
 
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index){

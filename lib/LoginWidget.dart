@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_new/bloc/LoginBloc.dart';
+import 'package:flutter_new/notifier/LoginNotifier.dart';
 import 'package:flutter_new/res/styles.dart';
 import 'package:flutter_new/utils/Constant.dart';
 import 'package:flutter_new/utils/LoadingPage.dart';
@@ -9,6 +10,8 @@ import 'package:flutter_new/utils/ToastUtil.dart';
 import 'package:flutter_new/utils/util_index.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_new/event/EventBusManager.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 import 'event/Event.dart';
 
@@ -67,7 +70,8 @@ class LoginWidget extends StatelessWidget{
                       pwdController.text)
                       .then((value){
                     SpUtil.putString(Constant.keyUserName, userNameController.text);
-                    EventBusManager.eventBus.fire(LoginChangeEvent(true));
+                    Provider.of<LoginNotifier>(context,listen: false).change(true);
+                    // EventBusManager.eventBus.fire(LoginChangeEvent(true));
                     loadingPage.close();
 
                     ToastUtil.showToast("登录成功！");
@@ -75,15 +79,7 @@ class LoginWidget extends StatelessWidget{
                   }).catchError((error) {
                     print("登录$error");
                     loadingPage.close();
-                    Fluttertoast.showToast(
-                        msg: "请求失败啦",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.white38,
-                        textColor: Colors.black,
-                        fontSize: 16.0
-                    );
+                    ToastUtil.showToast("请求失败啦");
                   });
                 },
                 child: const Center(

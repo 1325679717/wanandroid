@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_new/AboutWidget.dart';
 import 'package:flutter_new/LoginWidget.dart';
+import 'package:flutter_new/fun.dart';
+import 'package:flutter_new/notifier/LoginNotifier.dart';
 import 'package:flutter_new/res/strings.dart';
 import 'package:flutter_new/res/styles.dart';
 import 'package:flutter_new/utils/Constant.dart';
@@ -13,6 +15,7 @@ import 'package:flutter_new/utils/navigator_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_new/event/EventBusManager.dart';
 import 'package:flutter_new/model/MeItemData.dart';
+import 'package:provider/provider.dart';
 
 import 'event/Event.dart';
 import 'package:flutter_new/res/dimens.dart';
@@ -29,11 +32,12 @@ class _MeWdgetState extends State<MeWdget> {
   MeItemData logoutData =MeItemData(Ids.titleSignOut,"注销", Icons.power_settings_new,);
   @override
   Widget build(BuildContext context) {
-    EventBusManager.eventBus.on<LoginChangeEvent>().listen((event) {
-      print("收到登录成功的event= ${event.isLogin}");
-      initData();
-      setState(() {});
-    });
+    print("MeWdget build");
+    // EventBusManager.eventBus.on<LoginChangeEvent>().listen((event) {
+    //   print("MeWdget 收到登录成功的event= ${event.isLogin}");
+    //   initData();
+    //   setState(() {});
+    // });
     initData();
     return Scaffold(
       appBar: AppBar(
@@ -41,7 +45,14 @@ class _MeWdgetState extends State<MeWdget> {
           child: Text("我的"),
         ),
       ),
-      body: buildList()
+      body: Consumer<LoginNotifier>(
+        builder: (BuildContext context,
+            LoginNotifier value,
+        Widget? child){
+          initData();
+          return buildList();
+        }
+      )
     );
   }
   Widget buildList(){
@@ -73,7 +84,7 @@ class _MeWdgetState extends State<MeWdget> {
   }
   void initData(){
     list.clear();
-    list.add(MeItemData(Ids.titleCollection,"收藏", Icons.collections));
+    list.add(MeItemData(Ids.titleCollection,"收藏", Icons.collections,widget: FunWidget()));
     list.add(MeItemData(Ids.titleAbout,"关于", Icons.info,widget: AboutWidget()));
     list.add(logoutData);
     if (!LoginUtil.isLogin()){
@@ -121,5 +132,10 @@ class _MeWdgetState extends State<MeWdget> {
             ],
           );
         });
+  }
+  @override
+  void dispose() {
+    EventBusManager.eventBus.destroy();
+    super.dispose();
   }
 }
