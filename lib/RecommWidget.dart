@@ -13,20 +13,30 @@ import 'model/ArticleData.dart';
 import 'model/BannerData.dart';
 import 'model/RecommProjectData.dart';
 
-class RecommWidget extends StatelessWidget{
+class RecommWidget extends StatefulWidget{
 
+  @override
+  State<RecommWidget> createState() => _RecommWidgetState();
+}
+
+class _RecommWidgetState extends State<RecommWidget> {
   final RefreshController _refreshController =
   RefreshController(initialRefresh: false);
+
   MainBloc bloc = MainBloc();
-  void refreshCompleted(){
-    _refreshController.refreshCompleted();
-    // Future.delayed(const Duration(milliseconds: 200),(){
-    //   _refreshController.refreshCompleted();
-    // });
+  @override
+  void initState() {
+    super.initState();
+    print("_RecommWidgetState initState");
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadData();
   }
   @override
   Widget build(BuildContext context) {
-    loadData();
+    print("_RecommWidgetState build");
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -86,6 +96,7 @@ class RecommWidget extends StatelessWidget{
       ),
     );
   }
+
   Widget buildBanner(AsyncSnapshot<List<BannerData>?> snapshot){
 
     if (snapshot.data == null){
@@ -114,12 +125,14 @@ class RecommWidget extends StatelessWidget{
         children: snapshot.data!.map((e) => RecommArticleItem(e,bloc)).toList()
     );
   }
+
   Widget buildRecommProject(AsyncSnapshot<List<RecommProjectData>?> snapshot,MainBloc bloc){
     if (snapshot.data == null) return Container();
     return Column(
       children: snapshot.data!.map((e) => RecommProjectItem(e,bloc)).toList()
     );
   }
+
   void loadData(){
     bloc.getBanner();
     bloc.getProject();

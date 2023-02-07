@@ -15,13 +15,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
-  List<Widget> tabContent= [RecommWidget(),ProjectWidget(),MeWdget()];
-  List<BottomNavigationBarItem> items = [const BottomNavigationBarItem(icon: Icon(Icons.home),label: "主页"),
-    const BottomNavigationBarItem(icon: Icon(Icons.list),label: "项目"),
-    const BottomNavigationBarItem(icon: Icon(Icons.person),label: "我的")];
+  List<Widget> tabContent= [];
+  List<BottomNavigationBarItem> items = [];
+  @override
+  void initState() {
+    super.initState();
+    tabContent = [RecommWidget(),ProjectWidget(),MeWdget()];
+    items = [const BottomNavigationBarItem(icon: Icon(Icons.home),label: "主页"),
+      const BottomNavigationBarItem(icon: Icon(Icons.list),label: "项目"),
+      const BottomNavigationBarItem(icon: Icon(Icons.person),label: "我的")];
+  }
   @override
   Widget build(BuildContext context) {
-
+    print("_MyHomePageState build");
     return Scaffold(
       body: IndexedStack(index: _currentIndex, children: tabContent),
 
@@ -35,5 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
         items:items,
       ),
     );
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    print("_MyHomePageState dispose");
+    tabContent.clear();
+    items.clear();
   }
 }

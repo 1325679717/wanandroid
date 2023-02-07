@@ -126,7 +126,7 @@ class _MeWdgetState extends State<MeWdget> {
                   SpUtil.putString(Constant.keyAppToken, "");
                   ToastUtil.showToast("已退出登录！");
                   Navigator.pop(ctx);
-                  setState(() {});
+                  Provider.of<LoginNotifier>(context,listen: false).change(false);
                 },
               ),
             ],
